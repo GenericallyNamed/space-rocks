@@ -41,6 +41,7 @@ index.html: $(SRC_INDEX_HTML_FILE)
 	@echo "Copying index.html to build directory"
 	@cp $(SRC_INDEX_HTML_FILE) $(BUILD_DIR)/index.html
 
+# CSS Files
 css: $(CSS_FILES)
 	@echo "Copying CSS files to build directory"
 	@mkdir -p $(BUILD_DIR)/css
@@ -48,8 +49,7 @@ css: $(CSS_FILES)
 
 tailwind: $(SRC_TAILWIND_FILE)
 	@echo "Compiling Tailwind CSS"
-	@npx tailwindcss-cli@latest build $(SRC_TAILWIND_FILE) -o $(BUILD_TAILWIND_FILE)
-
+	@npx tailwindcss-cli@latest -i $(SRC_TAILWIND_FILE) -o $(BUILD_TAILWIND_FILE)
 $(BUILD_DIR)/js/main.js: $(SRC_DIR)/js/main.js
 	cp $(SRC_DIR)/js/main.js $(BUILD_DIR)/js
 
