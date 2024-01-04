@@ -1,4 +1,4 @@
-# Flask/Python project components
+# Python project components
 __pycache__/
 *.pyc
 *.pyo
@@ -13,6 +13,16 @@ build/
 *.egg
 *.whl
 .DS_Store
+example/
 
 # React and JavaScript project components
 node_modules/
+
+
+# Miscellaneous elements
+misc_data/
+
+
+# VSCode Elements
+# Configuration to build and develop the project is explained in the readme!
+.vscode/
