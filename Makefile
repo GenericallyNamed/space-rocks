@@ -56,7 +56,9 @@ $(BUILD_DIR)/js/main.js: $(SRC_DIR)/js/main.js
 .PHONY: js
 js: $(BUILD_DIR)/js/main.js
 	echo "Copying JS files to build directory"
-	mkdir -p $(BUILD_DIR)/js
+	# Only make the directory if it doesn't exist
+	@mkdir -p $(BUILD_DIR)/js
+	@cp $(SRC_JS_FILES) $(BUILD_DIR)/js
 
 favicon: $(SRC_FAVICON_FILE)
 	@echo "Copying favicon to build directory"
