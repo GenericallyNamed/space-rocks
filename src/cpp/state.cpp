@@ -67,6 +67,8 @@ void Game::check_asteroids() {
         // Note we do this every frame because player can collide arbitrarily
         if(std::sqrt(std::pow(player.x - x, 2.0) + std::pow(player.y - y, 2.0)) < 10) {
             it = asteroids.erase(it);
+            player.lives--;
+            player.lives_updated = true;
             continue;
         }
 
@@ -87,6 +89,8 @@ void Game::check_asteroids() {
 
         if(destroyed) {
             it = asteroids.erase(it);
+            score += 1;
+            score_updated = true;
             continue;
         }
         
@@ -96,7 +100,6 @@ void Game::check_asteroids() {
 
 
 void Game::add_bullet() {
-    printf("Adding bullet\n");
     float x, y;
     float dx, dy;
 
@@ -110,7 +113,6 @@ void Game::add_bullet() {
     dy = - Constants::BULLET_SPEED * std::cos(player.rotation);
 
     bullets.push_back(Bullet(x, y, dx, dy));
-    printf("Successfully added bullet.\n");
 }
 
 

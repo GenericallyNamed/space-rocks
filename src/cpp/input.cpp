@@ -2,6 +2,7 @@
 // input object, and the game loop updates the input object.
 #include <unordered_map>
 #include <stdio.h>
+#include "constants.hpp"
 #include "input.hpp"
 
 // The input state
@@ -11,17 +12,6 @@ struct KeyState {
 };
 KeyState input_state[256];
 
-
-class Key {
-    public:
-        // fill in the blanks
-        static const char UP = 119;
-        static const char DOWN = 115;
-        static const char LEFT = 97;
-        static const char RIGHT = 100;
-        static const char SPACE = 32;
-        static const char ESCAPE = 27;
-};
 
 void print_key(char key) {
     switch (key) {

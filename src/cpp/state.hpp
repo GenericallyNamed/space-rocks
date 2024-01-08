@@ -50,6 +50,7 @@ public:
      * @brief Represents the game's score.
      */
     int score = 0;
+    bool score_updated = false;
     GameState state = GameState::MENU;
 
     /**
@@ -68,6 +69,7 @@ public:
 
         // Player status
         int lives = 3;
+        bool lives_updated = false;
         int shooting_cooldown = 0;
     };
 

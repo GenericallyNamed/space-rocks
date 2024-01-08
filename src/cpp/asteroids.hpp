@@ -1,4 +1,17 @@
 /**
+ * @brief Send signal to JavaScript host
+ * @details Invokes the JavaScript function attached to window called 
+*/
+void send_signal(const char* signal);
+
+
+/**
+ * @brief Send signal to JavaScript host with data
+*/
+void send_signal(const char* signal, int data);
+
+
+/**
  * @brief Reset the game state
  * @details This function is called when the game is reset or initialized.
 */

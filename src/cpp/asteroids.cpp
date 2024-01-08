@@ -1,48 +1,57 @@
 #include <cmath>
 #include <stdio.h>
 #include <emscripten/emscripten.h>
+#include <emscripten/val.h>
 #include "asteroids.hpp"
 #include "constants.hpp"
 #include "input.hpp"
 #include "render.hpp"
 #include "state.hpp"
 
+
+using emscripten::val;
+
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int MAX_ASTEROIDS = 10;
 
-class Key {
-    public:
-        // fill in the blanks
-        static const char UP = 119;
-        static const char DOWN = 115;
-        static const char LEFT = 97;
-        static const char RIGHT = 100;
-        static const char SPACE = 32;
-        static const char ESCAPE = 27;
-};
+
+void send_signal(const char* signal) {
+    val window = val::global("window");
+    window.call<val>("sendSignal", val(signal));
+}
+
+
+void send_signal(const char* signal, int value) {
+    val window = val::global("window");
+    window.call<val>("sendSignal", val(signal), val(value));
+}
 
 
 void reset() {
-    printf("Resetting game\n");
     game.player.x = Constants::ZERO_X;
     game.player.y = Constants::ZERO_Y;
     game.player.rotation = 0;
     game.player.dx = 0;
     game.player.dy = 0;
+    game.player.lives = 3;
+    game.player.lives_updated = true;
+    game.asteroids.clear();
+    game.bullets.clear();
     game.score = 0;
+    game.score_updated = true;
+    reset_render();
 }
 
 
 void start() {
     reset();
     game.state = GameState::PLAYING;
-    printf("Game started!\n");
 }
 
-
 void quit() {
-
+    reset();
 }
 
 void simulate_asteroids() {
@@ -68,7 +77,6 @@ void simulate_asteroids() {
 
 void simulate_bullets() {
     for(auto it = game.bullets.begin(); it != game.bullets.end(); it++) {
-        printf("Simulating a bullet\n");
         it->x += it->dx;
         it->y += it->dy;
     }
@@ -97,6 +105,7 @@ void play_frame() {
         /**
          * TODO: Add visual effects
         */
+        generate_rocket_exhaust(game.player.x, game.player.y, game.player.rotation, game.player.dx, game.player.dy);
     }
     if(rotate_left && !rotate_right) {
         game.player.rotation -= 0.1;
@@ -109,8 +118,19 @@ void play_frame() {
     }
     if(shooting) {
         game.player.shooting_cooldown = Constants::SHOOTING_COOLDOWN;
-        printf("Shooting!\n");
         game.add_bullet();
+    }
+    if(game.player.x < -10) {
+        game.player.x = Constants::SCREEN_WIDTH + 10;
+    }
+    else if(game.player.x > Constants::SCREEN_WIDTH + 10) {
+        game.player.x = -10;
+    }
+    if(game.player.y < -10) {
+        game.player.y = Constants::SCREEN_HEIGHT + 10;
+    }
+    else if(game.player.y > Constants::SCREEN_HEIGHT + 10) {
+        game.player.y = -10;
     }
 
     game.player.x += game.player.dx;
@@ -123,6 +143,8 @@ void play_frame() {
 
 
     // Rendering elements
+    draw_stars();
+    draw_rocket_exhaust();
     draw_player(game.player.x, game.player.y, game.player.rotation);
     for(auto asteroid : game.asteroids) {
         draw_asteroid(asteroid.x, asteroid.y, asteroid.rotation);
@@ -130,28 +152,52 @@ void play_frame() {
     for(auto bullet : game.bullets) {
         draw_bullet(bullet.x, bullet.y);
     }
-    
+    if(game.player.lives == 0) {
+        game.state = GameState::GAME_OVER;
+        send_signal("gameOver");
+    }
+
+    if(game.player.lives_updated) {
+        send_signal("livesUpdated", game.player.lives);
+        game.player.lives_updated = false;
+    }
+    if(game.score_updated) {
+        send_signal("scoreUpdated", game.score);
+        game.score_updated = false;
+    }
+
 }
 
 
 void menu_frame() {
-
+    draw_stars();
+    draw_player(game.player.x, game.player.y, game.player.rotation);
 }
 
 
 void game_over_frame() {
-
+    draw_stars();
 }
 
 
 void pause_frame() {
+    draw_stars();
     draw_player(game.player.x, game.player.y, game.player.rotation);
+    // draw asteroids
+    for(auto asteroid : game.asteroids) {
+        draw_asteroid(asteroid.x, asteroid.y, asteroid.rotation);
+    }
+    // draw bullets
+    for(auto bullet : game.bullets) {
+        draw_bullet(bullet.x, bullet.y);
+    }
 }
 
 
 void init() {
     printf("Attempting to initialize game\n");
     reset();
+    init_stars();
     printf("Game is initialized!\n");
 }
 
@@ -161,6 +207,7 @@ void get_frame() {
         case GameState::MENU:
             if (is_key_pressed(Key::SPACE)) {
                 start();
+                send_signal("start");
             }
             menu_frame();
             break;
@@ -170,26 +217,42 @@ void get_frame() {
             }
             if (is_key_pressed(Key::ESCAPE)) {
                 game.state = GameState::PAUSED;
-                printf("Pausing game!!!\n");
+                send_signal("pause");
             }
             play_frame();
             // render_test();
             break;
         case GameState::PAUSED:
-            printf("Paused!\n");
             if (is_key_pressed(Key::ESCAPE) or is_key_pressed(Key::SPACE)) {
-                printf("Unpausing game\n");
                 game.state = GameState::PLAYING;
+                send_signal("resume");
+            }
+            if (is_key_pressed(Key::Q)) {
+                game.state = GameState::MENU;
+                send_signal("quit");
+                quit();
+            }
+            if (is_key_pressed(Key::R)) {
+                start();
+                send_signal("restart");
             }
             pause_frame();
             break;
         case GameState::GAME_OVER:
             game_over_frame();
             if (is_key_pressed(Key::ESCAPE)) {
+                game.state = GameState::MENU;
+                send_signal("quit");
+                quit();
+            }
+            if (is_key_pressed(Key::Q)) {
+                game.state = GameState::MENU;
+                send_signal("quit");
                 quit();
             }
             else if(is_key_pressed(Key::SPACE)) {
                 start();
+                send_signal("restart");
             }
             break;
         default:
