@@ -138,10 +138,10 @@ window.sendSignal = (signal, data) => {
             break;
         case "gameOver":
             GAMEOVER_MENU.style.visibility = "visible";
-            GAMEOVER_SCORE_TEXT.innerText = score;
+            GAMEOVER_SCORE_TEXT.innerText = score.toString().padStart(4, "0");
             if(score > best_score) {
                 best_score = score;
-                GAMEOVER_BEST_SCORE_TEXT.innerText = best_score;
+                GAMEOVER_BEST_SCORE_TEXT.innerText = best_score.toString().padStart(4, "0");
             }
             break;
         default:
