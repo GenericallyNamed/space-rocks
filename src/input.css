@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "FiraCode";
+        src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "VT323";
+        src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        font-weight: normal;
+        font-style: normal;
+    
+    }
+}
+
+@layer components {
+
+    body {
+        @apply bg-space
+    }
+    h1 {
+        @apply text-5xl;
+    }
+    h2 {
+        @apply text-4xl;
+    }
+    h3 {
+        @apply text-3xl;
+    }
+    h4 {
+        @apply text-2xl;
+    }
+
+    span {
+        @apply text-base;
+    }
+
+    modal {
+        @apply fixed inset-0 z-50 flex items-center justify-center w-[490px] h-80 ml-auto mr-auto mt-auto mb-auto;
+    }
+
+    keyHint {   
+        @apply inline-flex px-3 font-code text-center rounded-md bg-gray-700 border-2 border-gray-200;
+    }
+
+    keyHint[space] {
+        @apply font-code px-7;
+    }
+
+    [retro] {
+        @apply font-retro;
+    }
+
+    [code] {
+        @apply font-code;
+    }
+
+}
