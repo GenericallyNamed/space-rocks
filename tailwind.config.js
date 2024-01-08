@@ -2,10 +2,14 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
+    fontFamily: {
+      retro: ["VT323", "monospace"],
+      code: ["Fira Code", "monospace"],
+    },
     colors: {
       red:'#FF1000',
       green:'#00FF00',
-      blue:'#0000FF',
+      space:'#0F0F0F',
       white:'#FFFFFF',
       yellow:{
         '100':'#FFF8E5',
@@ -17,17 +21,6 @@ module.exports = {
         '700':'#FFC24A',
         '800':'#FFB930',
         '900':'#FFB017',
-      },
-      darkYellow:{
-        '100':'#E5D7C6',
-        '200':'#CBBEA7',
-        '300':'#B2A588',
-        '400':'#988C69',
-        '500':'#7F7350',
-        '600':'#665937',
-        '700':'#4C4020',
-        '800':'#332806',
-        '900':'#191000',
       },
       gray:{
         '100':'#F3F3F3',
