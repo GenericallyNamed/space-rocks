@@ -50,11 +50,9 @@ css: $(CSS_FILES)
 tailwind: $(SRC_TAILWIND_FILE)
 	@echo "Compiling Tailwind CSS"
 	@npx tailwindcss -i $(SRC_TAILWIND_FILE) -o $(BUILD_TAILWIND_FILE)
-$(BUILD_DIR)/js/main.js: $(SRC_DIR)/js/main.js
-	cp $(SRC_DIR)/js/main.js $(BUILD_DIR)/js
 
 .PHONY: js
-js: $(BUILD_DIR)/js/main.js
+js: $(SRC_JS_FILES)
 	echo "Copying JS files to build directory"
 	# Only make the directory if it doesn't exist
 	@mkdir -p $(BUILD_DIR)/js
