@@ -2,4 +2,8 @@
 
 # This script is used to install dependencies for the project.
 
+echo "Installing tailwindcss" 
 npm install tailwindcss
+
+echo "Setting up project build directory"
+mkdir -p build
