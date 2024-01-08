@@ -152,7 +152,7 @@ void play_frame() {
     for(auto bullet : game.bullets) {
         draw_bullet(bullet.x, bullet.y);
     }
-    if(game.player.lives == 0) {
+    if(game.player.lives <= 0) {
         game.state = GameState::GAME_OVER;
         send_signal("gameOver");
     }
