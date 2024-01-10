@@ -5,8 +5,8 @@
 #include <string>
 #include <emscripten/emscripten.h>
 #include <emscripten/val.h>
+#include "constants.hpp"
 #include "render.hpp"
-
 
 using emscripten::val;
 
@@ -72,12 +72,15 @@ void draw_asteroid(float x, float y, float rotation) {
 
     // Draw the asteroid
     ctx.call<void>("beginPath");
-    ctx.call<void>("moveTo", x, y - 10);
-    ctx.call<void>("lineTo", x + 6, y - 10);
-    ctx.call<void>("lineTo", x + 9, y);
-    ctx.call<void>("lineTo", x + 3, y + 2);
-    ctx.call<void>("lineTo", x + 8, y + 7);
-    ctx.call<void>("lineTo", x - 8, y + 7);
+    ctx.call<void>("moveTo", x - 5*Constants::ASTEROID_SIZE, y - 10*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x - 10*Constants::ASTEROID_SIZE, y - 10*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x - 6*Constants::ASTEROID_SIZE, y + 6*Constants::ASTEROID_SIZE);
+    // ctx.call<void>("lineTo", x + 6*Constants::ASTEROID_SIZE, y - 10*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x - 6*Constants::ASTEROID_SIZE, y + 10*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x + 3*Constants::ASTEROID_SIZE, y + 6*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x + 8*Constants::ASTEROID_SIZE, y + 7*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x + 6*Constants::ASTEROID_SIZE, y - 4*Constants::ASTEROID_SIZE);
+    ctx.call<void>("lineTo", x + 10*Constants::ASTEROID_SIZE, y - 7*Constants::ASTEROID_SIZE);
     // Close path
     ctx.call<void>("closePath");
     // Draw stroke

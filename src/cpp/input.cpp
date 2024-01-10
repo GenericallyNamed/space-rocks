@@ -52,6 +52,10 @@ void key_released(char key) {
     input_state[key].stale = false;
 }
 
+/**
+ * @brief Return if a key is pressed.
+ * @details This function will return true only once per key press.
+*/
 bool is_key_pressed(char key) {
     if(input_state[key].pressed and !input_state[key].stale) {
         input_state[key].stale = true;
@@ -60,10 +64,16 @@ bool is_key_pressed(char key) {
     return false;
 }
 
+/**
+ * @brief Return if a key is pressed continuously.
+*/
 bool is_key_pressed_continuous(char key) {
     return input_state[key].pressed;
 }
 
+/**
+ * @brief Return if a key is exclusively pressed.
+*/
 bool is_key_exclusively_pressed(char key) {
     bool &pressed = input_state[key].pressed;
     bool exclusively_pressed = true;

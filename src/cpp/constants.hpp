@@ -11,7 +11,7 @@ namespace Constants {
     inline const int MAX_ASTEROIDS = 10;
     inline const int ASTEROID_SPEED = 5;
     inline const int ASTEROID_ROTATION_SPEED = 5;
-    inline const int ASTEROID_SIZE = 10;
+    inline const int ASTEROID_SIZE = 2;
 
     // Player
     inline const int SHOOTING_COOLDOWN = 10;
