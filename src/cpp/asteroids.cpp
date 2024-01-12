@@ -88,7 +88,7 @@ void play_frame() {
     bool decelerate = is_key_pressed_continuous(Key::DOWN);
     bool rotate_left = is_key_pressed_continuous(Key::LEFT);
     bool rotate_right = is_key_pressed_continuous(Key::RIGHT);
-    bool shooting = is_key_pressed(Key::SPACE) and game.player.shooting_cooldown == 0;
+    bool shooting = is_key_pressed_continuous(Key::SPACE) and game.player.shooting_cooldown == 0;
 
 
     // ======= Player movement =======

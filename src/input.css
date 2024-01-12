@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    @font-face {
-        font-family: "FiraCode";
-        src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: "VT323";
-        src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        font-weight: normal;
-        font-style: normal;
-    
-    }
-}
-
 @layer components {
 
     body {
@@ -62,3 +45,21 @@
     }
 
 }
+
+/* 
+
+@layer base {
+    /* @font-face {
+        font-family: "FiraCode";
+        src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "VT323";
+        src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        font-weight: normal;
+        font-style: normal;
+    
+//    } */
