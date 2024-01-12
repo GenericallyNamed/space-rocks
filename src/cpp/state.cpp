@@ -128,23 +128,3 @@ void Game::check_bullets() {
         it++;
     }
 }
-
-
-extern "C" {
-
-    EMSCRIPTEN_KEEPALIVE
-    void init_game() {
-        game = Game();
-    }
-
-    EMSCRIPTEN_KEEPALIVE
-    void reset_game() {
-        game = Game();
-    }
-
-    EMSCRIPTEN_KEEPALIVE
-    void delete_game() {
-        // delete game;
-    }
-
-}

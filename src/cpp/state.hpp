@@ -119,26 +119,3 @@ public:
 };
 
 extern Game game;
-
-// define headers for setters and getters for emscripten (will be exposed with EMSCRIPTEN_KEEPALIVE)
-extern "C"
-{
-
-    /**
-     * @brief Initialize the game state
-     */
-    EMSCRIPTEN_KEEPALIVE
-    void init_game();
-
-    /**
-     * @brief Reset the game state
-     */
-    EMSCRIPTEN_KEEPALIVE
-    void reset_game();
-
-    /**
-     * @brief Delete the game state
-     */
-    EMSCRIPTEN_KEEPALIVE
-    void delete_game();
-}
